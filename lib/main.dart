@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'question.dart';
 
 void main() {
   runApp(const QuizzlerApp());
@@ -31,17 +32,41 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  
+  List <Icon> reviewIcons =[];
+
+  // List <String> questions = [
+  //   'Ya pero eres o no eres?',
+  //   'Te estas recogiendo?',
+  //   'No lo hag'
+  // ];
+
+  // List <bool> answers = [
+  //   true,
+  //   false,
+  //   true,
+  // ];
+
+  List <Question> questionsBank = [
+    Question(question: '¿Hawaii forma parte de EEUU?', answer: true),
+    Question(question: '¿EEUU tiene 51 estados?', answer: false),
+    Question(question: '¿El rio Ebro es el mas largo del mundo?', answer: false),
+    Question(question: '¿La segunda guerra mundial acabo en 1945?', answer: true),
+  ];
+
+  int questionIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Expanded(
+        Expanded(
           flex: 5,
           child: Center(
             child: Text(
-              'Aqui va la pregunta',
-              style: TextStyle(
+              questionsBank[questionIndex].question,
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 20.0,
@@ -57,8 +82,15 @@ class _QuizPageState extends State<QuizPage> {
                 backgroundColor: MaterialStateProperty.all(Colors.green),
               ),
               onPressed: () {
-                // ignore: avoid_print
-                print('h');
+                bool correctAnswer = questionsBank[questionIndex].answer;
+                if(correctAnswer == true){
+                  print('Lo hizo bn pana rabit');
+                } else {
+                  print('Se equivoco pana rabit');
+                }
+                setState(() {
+                  questionIndex++;
+                });
               },
               child: const Text(
                 'True',
@@ -77,8 +109,15 @@ class _QuizPageState extends State<QuizPage> {
                 backgroundColor: MaterialStateProperty.all(Colors.red),
               ),
               onPressed: () {
-                // ignore: avoid_print
-                print('h');
+                bool correctAnswer = questionsBank[questionIndex].answer;
+                if(correctAnswer == false){
+                  print('Lo hizo bn pana rabit');
+                } else {
+                  print('Se equivoco pana rabit');
+                }
+                setState(() {
+                  questionIndex++;
+                });
               },
               child: const Text(
                 'False',
@@ -89,6 +128,7 @@ class _QuizPageState extends State<QuizPage> {
             ),
           ),
         ),
+        Row()
       ],
     );
   }

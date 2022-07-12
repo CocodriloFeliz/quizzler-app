@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'quiz_brain.dart';
 
 QuizBrain quizBrain = QuizBrain();
@@ -38,19 +39,29 @@ class _QuizPageState extends State<QuizPage> {
   void checkAnswer(bool userAnswer) {
     bool correctAnswer = quizBrain.getAnswer();
     setState(() {
-      if (correctAnswer == userAnswer) {
-        reviewIcons.add(const Icon(
-          Icons.check,
-          color: Colors.green,
-        ));
+      quizBrain.isFinal();
+      if (quizBrain.isFinal() == true) {
+        Alert(
+                context: context,
+                title: "FIN",
+                desc: "No tengo mas preguntas pana Rabit.")
+            .show();
+        quizBrain.reset();
+        reviewIcons.clear();
       } else {
-        reviewIcons.add(const Icon(
-          Icons.close,
-          color: Colors.red,
-        ));
+        if (correctAnswer == userAnswer) {
+          reviewIcons.add(const Icon(
+            Icons.check,
+            color: Colors.green,
+          ));
+        } else {
+          reviewIcons.add(const Icon(
+            Icons.close,
+            color: Colors.red,
+          ));
+        }
+        quizBrain.nextQuestion();
       }
-
-      quizBrain.nextQuestion();
     });
   }
 

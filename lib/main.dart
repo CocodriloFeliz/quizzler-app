@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'question.dart';
+import 'quiz_brain.dart';
+
+QuizBrain quizBrain = QuizBrain();
 
 void main() {
   runApp(const QuizzlerApp());
@@ -35,27 +37,6 @@ class _QuizPageState extends State<QuizPage> {
   
   List <Icon> reviewIcons =[];
 
-  // List <String> questions = [
-  //   'Ya pero eres o no eres?',
-  //   'Te estas recogiendo?',
-  //   'No lo hag'
-  // ];
-
-  // List <bool> answers = [
-  //   true,
-  //   false,
-  //   true,
-  // ];
-
-  List <Question> questionsBank = [
-    Question(question: '¿Hawaii forma parte de EEUU?', answer: true),
-    Question(question: '¿EEUU tiene 51 estados?', answer: false),
-    Question(question: '¿El rio Ebro es el mas largo del mundo?', answer: false),
-    Question(question: '¿La segunda guerra mundial acabo en 1945?', answer: true),
-  ];
-
-  int questionIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -65,7 +46,7 @@ class _QuizPageState extends State<QuizPage> {
           flex: 5,
           child: Center(
             child: Text(
-              questionsBank[questionIndex].question,
+              quizBrain.getQuestion(),
               style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -82,14 +63,14 @@ class _QuizPageState extends State<QuizPage> {
                 backgroundColor: MaterialStateProperty.all(Colors.green),
               ),
               onPressed: () {
-                bool correctAnswer = questionsBank[questionIndex].answer;
+                bool correctAnswer = quizBrain.getAnswer();
                 if(correctAnswer == true){
                   print('Lo hizo bn pana rabit');
                 } else {
                   print('Se equivoco pana rabit');
                 }
                 setState(() {
-                  questionIndex++;
+                  quizBrain.nextQuestion();
                 });
               },
               child: const Text(
@@ -109,14 +90,14 @@ class _QuizPageState extends State<QuizPage> {
                 backgroundColor: MaterialStateProperty.all(Colors.red),
               ),
               onPressed: () {
-                bool correctAnswer = questionsBank[questionIndex].answer;
+                bool correctAnswer = quizBrain.getAnswer();
                 if(correctAnswer == false){
                   print('Lo hizo bn pana rabit');
                 } else {
                   print('Se equivoco pana rabit');
                 }
                 setState(() {
-                  questionIndex++;
+                  quizBrain.nextQuestion();
                 });
               },
               child: const Text(

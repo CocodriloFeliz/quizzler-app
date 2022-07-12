@@ -34,8 +34,25 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  
-  List <Icon> reviewIcons =[];
+  List<Icon> reviewIcons = [];
+  void checkAnswer(bool userAnswer) {
+    bool correctAnswer = quizBrain.getAnswer();
+    setState(() {
+      if (correctAnswer == userAnswer) {
+        reviewIcons.add(const Icon(
+          Icons.check,
+          color: Colors.green,
+        ));
+      } else {
+        reviewIcons.add(const Icon(
+          Icons.close,
+          color: Colors.red,
+        ));
+      }
+
+      quizBrain.nextQuestion();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,15 +80,7 @@ class _QuizPageState extends State<QuizPage> {
                 backgroundColor: MaterialStateProperty.all(Colors.green),
               ),
               onPressed: () {
-                bool correctAnswer = quizBrain.getAnswer();
-                if(correctAnswer == true){
-                  print('Lo hizo bn pana rabit');
-                } else {
-                  print('Se equivoco pana rabit');
-                }
-                setState(() {
-                  quizBrain.nextQuestion();
-                });
+                checkAnswer(true);
               },
               child: const Text(
                 'True',
@@ -90,15 +99,7 @@ class _QuizPageState extends State<QuizPage> {
                 backgroundColor: MaterialStateProperty.all(Colors.red),
               ),
               onPressed: () {
-                bool correctAnswer = quizBrain.getAnswer();
-                if(correctAnswer == false){
-                  print('Lo hizo bn pana rabit');
-                } else {
-                  print('Se equivoco pana rabit');
-                }
-                setState(() {
-                  quizBrain.nextQuestion();
-                });
+                checkAnswer(false);
               },
               child: const Text(
                 'False',
@@ -109,7 +110,9 @@ class _QuizPageState extends State<QuizPage> {
             ),
           ),
         ),
-        Row()
+        Row(
+          children: reviewIcons,
+        )
       ],
     );
   }
